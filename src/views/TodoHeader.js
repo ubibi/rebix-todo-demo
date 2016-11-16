@@ -15,9 +15,16 @@ class TodoHeader extends React.Component {
     };
 
     addTodo = (e)=> {
-        if(e.keyCode===13){
+        if (e.keyCode === 13) {
+
+            var newTodo = this.state.newTodo || '';
+            newTodo = newTodo.trim();
+            if (newTodo.length === 0) {
+                return;
+            }
+
             var {actions} = this.props;
-            actions.addTodo(this.state.newTodo);
+            actions.addTodo(newTodo);
             this.setState({newTodo: ''});
         }
     };
@@ -37,7 +44,7 @@ class TodoHeader extends React.Component {
                            onChange={this.onChangeInput}
                            onKeyUp={this.addTodo}
                            disabled={saving}
-                           autoFocus={true} />
+                           autoFocus={true}/>
                 </div>
             </header>
         )
@@ -54,7 +61,7 @@ export default RebixComponent(TodoHeader, {
     },
 
     props: {
-        saving:'todo.saving'
+        saving: 'todo.saving'
     }
 
 });
