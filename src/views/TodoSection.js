@@ -14,16 +14,38 @@ class TodoSection extends React.Component{
 
     }
 
+    isAllCompleted=()=>{
+        var {viewTodoList} = this.props;
+        var todoList = viewTodoList ||[];
+        if(!todoList || todoList.length===0){
+            return false;
+        }
+
+        for(var i = 0;i<todoList.length;i++){
+            var todo = todoList[i];
+            if(!todo.completed){
+                return false;
+            }
+        }
+        return true;
+    };
+
+    toggleAll=()=>{
+        var isAllChecked = this.isAllCompleted();
+        this.props.actions.toggleAll(!isAllChecked);
+    };
+
     render() {
 
-        var {todoList} = this.props;
-        todoList = todoList ||[];
-
+        var {viewTodoList} = this.props;
+        viewTodoList = viewTodoList || [];
+        var isAllChecked = this.isAllCompleted();
         return (
-            <div>
+            <div className="main">
+                <input className="toggle-all" type="checkbox" checked={isAllChecked} onChange={this.toggleAll}/>
                 <ul className="todo-list">
                     {
-                        todoList.map(function(todo){
+                        viewTodoList.map(function(todo){
                             return <TodoItem key={todo.id} todo={todo}></TodoItem>
                         })
                     }
@@ -37,6 +59,9 @@ class TodoSection extends React.Component{
 
 export default RebixComponent(TodoSection, {
     props: {
-        todoList:'todo.todoList'
+        viewTodoList:'todo.viewTodoList'
+    },
+    actions:{
+        toggleAll:'todo.toggleAll'
     }
 });
