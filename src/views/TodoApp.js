@@ -2,21 +2,9 @@ import React, {PropTypes} from 'react';
 import TodoHeader from './TodoHeader';
 import TodoSection from './TodoSection';
 import TodoFooter from './TodoFooter';
-
 import RebixComponent from '../config/RebixComponent';
 
-class TodoApp extends React.Component{
-
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-
-    componentDidMount() {
-
-    }
-
+export default class TodoApp extends React.Component{
     render() {
         return (
             <div>
@@ -26,16 +14,4 @@ class TodoApp extends React.Component{
             </div>
         );
     }
-
 }
-
-
-export default RebixComponent(TodoApp, {
-
-    actions: {
-    },
-
-    props: {
-    }
-
-});

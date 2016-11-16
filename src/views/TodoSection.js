@@ -10,10 +10,6 @@ class TodoSection extends React.Component{
         };
     }
 
-    componentDidMount() {
-
-    }
-
     isAllCompleted=()=>{
         var {viewTodoList} = this.props;
         var todoList = viewTodoList ||[];
