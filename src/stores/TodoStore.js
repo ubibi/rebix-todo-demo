@@ -72,11 +72,11 @@ export default Rebix.createStore({
 
 
     'onToggleItem': function (state, {payload}) {
-        state = setTodoListItemAttr(state, function (item) {
-            if (item.id === payload.id) {
-                item.completed = !item.completed;
+        state = setTodoListItemAttr(state, function (m) {
+            if (m.id === payload.id) {
+                m.completed = !m.completed;
             }
-            return item;
+            return m;
         });
 
         state = calculateViewTodoList(state);
@@ -98,8 +98,8 @@ export default Rebix.createStore({
 
     'onDestroyItem': function (state, {payload}) {
         state = Object.assign({}, state);
-        state.todoList = [].concat(state.todoList).filter(function (item) {
-            if (item.id === payload.id) {
+        state.todoList = [].concat(state.todoList).filter(function (m) {
+            if (m.id === payload.id) {
                 return false;
             }
             return true;
@@ -110,11 +110,11 @@ export default Rebix.createStore({
 
     'onSaveItem': function (state, {payload}) {
         var {todo, newTitle} = payload;
-        state = setTodoListItemAttr(state, function (item) {
-            if (item.id === todo.id) {
-                item.title = newTitle;
+        state = setTodoListItemAttr(state, function (m) {
+            if (m.id === todo.id) {
+                m.title = newTitle;
             }
-            return item;
+            return m;
         });
         state = calculateViewTodoList(state);
         return state;
@@ -129,8 +129,8 @@ export default Rebix.createStore({
 
     'onClearCompleted': function (state) {
         state = Object.assign({}, state);
-        state.todoList = [].concat(state.todoList).filter(function (item) {
-            if (item.completed) {
+        state.todoList = [].concat(state.todoList).filter(function (m) {
+            if (m.completed) {
                 return false;
             }
             return true;
