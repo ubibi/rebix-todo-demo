@@ -47,13 +47,14 @@ export default Rebix.createStore({
         viewType: 'all'//active completed
     },
 
-    'after': ["*", function (state, action) {
+    'after': [/^on/, function (state, action) {
         return calculateViewTodoList(state);
     }],
 
     'before': ['*', function (state, action, onHandler) {
         onHandler(state, action);
     }],
+
 
     'onAddTodo': function (state, {payload,status}) {
         console.log(status);
