@@ -88,8 +88,8 @@ function createWebpackConfig(jsFile, htmlFile, mainFileName) {
         output: {
             path: path.join(__appPath, 'dist'),
             publicPath: publicPath,
-            filename: 'static/app/[name].[hash].js',//hash
-            chunkFilename: 'static/app/module.[name].[hash].js',
+            filename: 'static/[name].[hash].js',//hash
+            chunkFilename: 'static/module.[name].[hash].js',
             library: ['Ubibi', '[name]'],
             pathInfo: true
         },
@@ -110,10 +110,7 @@ function createWebpackConfig(jsFile, htmlFile, mainFileName) {
             ],
             noParse: []
         },
-        /**
-         *  Config to node-sass
-         *  @type {Object}
-         */
+
         sassLoader: {
             includePaths: [path.resolve(__appPath, "./static")]
         },
@@ -161,7 +158,7 @@ function createWebpackConfig(jsFile, htmlFile, mainFileName) {
                 '__DEV__': !isProduction(),
                 'process.env.NODE_ENV': isProduction() ? '"production"' : '"development"'
             }),
-            new ExtractTextPlugin("static/app/[name].[hash].css", {
+            new ExtractTextPlugin("static/[name].[hash].css", {
                 disable: false,
                 allChunks: true
             })
