@@ -4,7 +4,6 @@ var uniqueId = new Date().getTime();
 
 
 function setTodoListItemAttr(state, callback) {
-    state = Object.assign({}, state);
     state.todoList = [].concat(state.todoList).map(function (m, i) {
         m = Object.assign({}, m);
         return callback(m, i);
@@ -13,7 +12,6 @@ function setTodoListItemAttr(state, callback) {
 }
 
 function calculateViewTodoList(state) {
-    state = Object.assign({}, state);
     var viewType = state.viewType;
     var unCompletedCount = 0;
     state.viewTodoList = [].concat(state.todoList).filter(function (m) {
@@ -37,78 +35,83 @@ function calculateViewTodoList(state) {
     return state;
 }
 
+
+function wrapperOn(func){
+    return function (state,action){
+        console.log('status',action.status);
+        state = Object.assign({}, state);
+        state = func(state,action);
+        state = calculateViewTodoList(state);
+        var json = JSON.stringify(state);
+        localStorage.setItem("state",json);
+        return state;
+    }
+}
+
+
+
 export default Rebix.createStore({
 
-    initialState: {
-        saving: false,
-        todoList: [],
-        viewTodoList: [],
-        unCompletedCount: 0,
-        viewType: 'all'//active completed
-    },
+    initialState: (function(){
+        var initialState = {
+            saving: false,
+            todoList: [],
+            viewTodoList: [],
+            unCompletedCount: 0,
+            viewType: 'all'//active completed
+        };
+        var json = localStorage.getItem("state");
+        if(json){
+            initialState = JSON.parse(json);
+        }
+        return initialState;
+    })(),
 
-    'after': [/^on/, function (state, action) {
-        return calculateViewTodoList(state);
-    }],
 
-    'before': ['*', function (state, action, onHandler) {
-        onHandler(state, action);
-    }],
-
-
-    'onAddTodo': function (state, {payload,status}) {
-        console.log(status);
-        state = Object.assign({}, state);
-        state.todoList.push({
+    'onAddTodo': wrapperOn(function (state, {payload,status}) {
+        state.todoList.unshift({
             id: uniqueId,
             title: payload,
             completed: false
         });
         uniqueId++;
         state.todoList = [].concat(state.todoList);
-        state = calculateViewTodoList(state);
         return state;
-    },
+    }),
 
 
-    'onToggleItem': function (state, {payload}) {
+    'onToggleItem': wrapperOn(function (state, {payload}) {
         state = setTodoListItemAttr(state, function (m) {
             if (m.id === payload.id) {
                 m.completed = !m.completed;
             }
             return m;
         });
-
-        state = calculateViewTodoList(state);
         return state;
-    },
+    }),
 
-    'onToggleAll': function (state, {payload}) {
+    'onToggleAll': wrapperOn(function (state, {payload}) {
         var selectAll = payload;
-        state = Object.assign({}, state);
         state.todoList = [].concat(state.todoList).map(function (m) {
             m = Object.assign({}, m);
             m.completed = selectAll;
             return m;
         });
-        state = calculateViewTodoList(state);
         return state;
-    },
+    }),
 
 
-    'onDestroyItem': function (state, {payload}) {
-        state = Object.assign({}, state);
+    'onDestroyItem': wrapperOn(function (state, {payload}) {
         state.todoList = [].concat(state.todoList).filter(function (m) {
             if (m.id === payload.id) {
                 return false;
             }
             return true;
         });
-        state = calculateViewTodoList(state);
         return state;
-    },
+    }),
 
-    'onSaveItem': function (state, {payload}) {
+    'onSaveItem': wrapperOn(function (state, {payload}) {
         var {todo, newTitle} = payload;
         state = setTodoListItemAttr(state, function (m) {
             if (m.id === todo.id) {
@@ -116,18 +119,16 @@ export default Rebix.createStore({
             }
             return m;
         });
-        state = calculateViewTodoList(state);
         return state;
-    },
+    }),
 
-    'onChangeViewType': function (state, {payload}) {
+    'onChangeViewType': wrapperOn(function (state, {payload}) {
         state = Object.assign({}, state);
         state.viewType = payload;
-        state = calculateViewTodoList(state);
         return state;
-    },
+    }),
 
-    'onClearCompleted': function (state) {
+    'onClearCompleted': wrapperOn(function (state) {
         state = Object.assign({}, state);
         state.todoList = [].concat(state.todoList).filter(function (m) {
             if (m.completed) {
@@ -135,8 +136,7 @@ export default Rebix.createStore({
             }
             return true;
         });
-        state = calculateViewTodoList(state);
         return state;
-    }
+    })
 });
 

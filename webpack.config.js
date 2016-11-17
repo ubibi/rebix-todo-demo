@@ -159,7 +159,6 @@ function createWebpackConfig(jsFile, htmlFile, mainFileName) {
             new webpack.NoErrorsPlugin(),
             new webpack.DefinePlugin({
                 '__DEV__': !isProduction(),
-                '__IS_HASH_HISTORY__': false,
                 'process.env.NODE_ENV': isProduction() ? '"production"' : '"development"'
             }),
             new ExtractTextPlugin("static/app/[name].[hash].css", {
