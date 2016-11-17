@@ -7,3 +7,4 @@ target/
 .idea/
 *.versionsBackup
 *.DS_Store
+/node_modules
