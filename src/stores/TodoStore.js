@@ -39,6 +39,7 @@ function calculateViewTodoList(state) {
     return state;
 }
 
+const LOCAL_STORAGE_KEY = "react_rebix_todo_mvc";
 
 function wrapperOn(func) {
     return function (state, action) {
@@ -47,7 +48,7 @@ function wrapperOn(func) {
         state = func(state, action);
         state = calculateViewTodoList(state);
         var json = JSON.stringify(state);
-        localStorage.setItem("state", json);
+        localStorage.setItem(LOCAL_STORAGE_KEY, json);
         return state;
     }
 }
@@ -63,7 +64,7 @@ export default Rebix.createStore({
             unCompletedCount: 0,
             viewType: 'all'//active completed
         };
-        var json = localStorage.getItem("state");
+        var json = localStorage.getItem(LOCAL_STORAGE_KEY);
         if (json) {
             initialState = JSON.parse(json);
         }
