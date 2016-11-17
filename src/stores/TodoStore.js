@@ -126,13 +126,11 @@ export default Rebix.createStore({
     }),
 
     'onChangeViewType': wrapperOn(function (state, {payload}) {
-        state = Object.assign({}, state);
         state.viewType = payload;
         return state;
     }),
 
     'onClearCompleted': wrapperOn(function (state) {
-        state = Object.assign({}, state);
         state.todoList = [].concat(state.todoList).filter(function (m) {
             if (m.completed) {
                 return false;
