@@ -1,7 +1,11 @@
 import Rebix from 'react-rebix';
 
-var uniqueId = new Date().getTime();
-
+var refreshPageTime = new Date().getTime();
+var uniqueId = 0;
+function getUniqueId() {
+    uniqueId++;
+    return '' + refreshPageTime + '_' + uniqueId;
+}
 
 function setTodoListItemAttr(state, callback) {
     state.todoList = [].concat(state.todoList).map(function (m, i) {
@@ -15,7 +19,7 @@ function calculateViewTodoList(state) {
     var viewType = state.viewType;
     var unCompletedCount = 0;
     state.viewTodoList = [].concat(state.todoList).filter(function (m) {
-        if(!m.completed){
+        if (!m.completed) {
             unCompletedCount++;
         }
 
@@ -36,23 +40,22 @@ function calculateViewTodoList(state) {
 }
 
 
-function wrapperOn(func){
-    return function (state,action){
-        console.log('status',action.status);
+function wrapperOn(func) {
+    return function (state, action) {
+        console.log('status', action.status);
         state = Object.assign({}, state);
-        state = func(state,action);
+        state = func(state, action);
         state = calculateViewTodoList(state);
         var json = JSON.stringify(state);
-        localStorage.setItem("state",json);
+        localStorage.setItem("state", json);
         return state;
     }
 }
 
 
-
 export default Rebix.createStore({
 
-    initialState: (function(){
+    initialState: (function () {
         var initialState = {
             saving: false,
             todoList: [],
@@ -61,7 +64,7 @@ export default Rebix.createStore({
             viewType: 'all'//active completed
         };
         var json = localStorage.getItem("state");
-        if(json){
+        if (json) {
             initialState = JSON.parse(json);
         }
         return initialState;
@@ -70,11 +73,10 @@ export default Rebix.createStore({
 
     'onAddTodo': wrapperOn(function (state, {payload,status}) {
         state.todoList.unshift({
-            id: uniqueId,
+            id: getUniqueId(),
             title: payload,
             completed: false
         });
-        uniqueId++;
         state.todoList = [].concat(state.todoList);
         return state;
     }),
