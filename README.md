@@ -9,3 +9,8 @@ npm install
 ```
 npm run watch
 ```
+
+#浏览器
+```
+http://localhost:4000
+```
