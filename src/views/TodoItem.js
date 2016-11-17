@@ -51,7 +51,7 @@ class TodoItem extends Rebix.PureRenderComponent {
     };
 
 
-    handleKeyDown = ()=> {
+    handleKeyDown = (event)=> {
         if (event.which === ESCAPE_KEY) {
             this.setState({editText: this.props.todo.title, editing: false});
         } else if (event.which === ENTER_KEY) {
