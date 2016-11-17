@@ -1,8 +1,7 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import TodoHeader from './TodoHeader';
 import TodoSection from './TodoSection';
 import TodoFooter from './TodoFooter';
-import RebixComponent from '../config/RebixComponent';
 
 export default class TodoApp extends React.Component{
     render() {
