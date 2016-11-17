@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
+import Rebix from 'react-rebix';
 import RebixComponent from '../config/RebixComponent';
 import TodoItem from './TodoItem';
 
-class TodoSection extends React.Component{
+class TodoSection extends Rebix.PureRenderComponent {
 
     constructor(props) {
         super(props);

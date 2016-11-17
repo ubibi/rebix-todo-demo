@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classname';
+import Rebix from 'react-rebix';
 import RebixComponent from '../config/RebixComponent';
 
-class TodoFooter extends React.Component {
+class TodoFooter extends Rebix.PureRenderComponent {
 
     render() {
         var {unCompletedCount,actions,viewType} = this.props;

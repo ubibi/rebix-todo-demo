@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react';
+import Rebix from 'react-rebix';
 import RebixComponent from '../config/RebixComponent';
 
-class TodoHeader extends React.Component {
+class TodoHeader extends Rebix.PureRenderComponent {
 
     constructor(props) {
         super(props);

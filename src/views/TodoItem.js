@@ -1,12 +1,13 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classname';
+import Rebix from 'react-rebix';
 import RebixComponent from '../config/RebixComponent';
 
 var ESCAPE_KEY = 27;
 var ENTER_KEY = 13;
 
 
-class TodoItem extends React.Component {
+class TodoItem extends Rebix.PureRenderComponent {
 
     constructor(props) {
         super(props);
